@@ -66,7 +66,7 @@ function delete-local-backup {
         hassio --raw-json snapshots list | jq -c .data.snapshots[] | while read backup; do
             if [[ $(echo ${backup} | jq .date | xargs date -D "%Y-%m-%dT%T" +%s --date ) -lt ${last_date_to_keep} ]]; then
                 echo "Deleting local backup: $(echo ${backup} | jq -r .slug)"
-                hassio --raw-json snapshots remove --name "$(echo ${backup} | jq -r .slug)"
+                hassio snapshots remove "$(echo ${backup} | jq -r .slug)"
             fi
         done
 
